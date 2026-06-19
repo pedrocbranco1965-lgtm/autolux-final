@@ -1,0 +1,172 @@
+export const vehicles = [
+  {
+    id: 1,
+    marca: 'BMW',
+    modelo: 'Série 3 320d',
+    ano: 2021,
+    combustivel: 'Diesel',
+    km: 45000,
+    preco: 32500,
+    potencia: '190 cv',
+    caixa: 'Automática',
+    cor: 'Preto Metalizado',
+    destaque: true,
+    imagem: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=900',
+    etiqueta: 'Premium executivo',
+    descricao:
+      'BMW Série 3 em excelente estado, com interior em pele, navegação profissional, sensores de estacionamento, câmara traseira e faróis LED adaptativos.'
+  },
+  {
+    id: 2,
+    marca: 'Mercedes-Benz',
+    modelo: 'Classe A 180d',
+    ano: 2022,
+    combustivel: 'Diesel',
+    km: 28000,
+    preco: 29900,
+    potencia: '116 cv',
+    caixa: 'Automática',
+    cor: 'Branco Polar',
+    destaque: true,
+    imagem: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=900',
+    etiqueta: 'AMG Line',
+    descricao:
+      'Mercedes Classe A com pacote AMG Line, sistema MBUX, ar condicionado automático bizona, bancos desportivos e jantes de 18 polegadas.'
+  },
+  {
+    id: 3,
+    marca: 'Volkswagen',
+    modelo: 'Golf 8 1.5 TSI',
+    ano: 2023,
+    combustivel: 'Gasolina',
+    km: 15000,
+    preco: 27500,
+    potencia: '150 cv',
+    caixa: 'Manual',
+    cor: 'Cinzento Dolphin',
+    destaque: true,
+    imagem: 'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=900',
+    etiqueta: 'Baixa quilometragem',
+    descricao:
+      'Golf 8 na versão Style com Digital Cockpit Pro, navegação Discover Pro, ACC, Lane Assist e garantia de fábrica até 2026.'
+  },
+  {
+    id: 4,
+    marca: 'Peugeot',
+    modelo: '3008 GT 1.5 BlueHDi',
+    ano: 2022,
+    combustivel: 'Diesel',
+    km: 38000,
+    preco: 31000,
+    potencia: '130 cv',
+    caixa: 'Automática',
+    cor: 'Azul Vertigo',
+    destaque: false,
+    imagem: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=900',
+    etiqueta: 'SUV familiar',
+    descricao:
+      'Peugeot 3008 GT com i-Cockpit, teto panorâmico, carregador wireless para smartphone e sistema de som premium.'
+  },
+  {
+    id: 5,
+    marca: 'Toyota',
+    modelo: 'Corolla 1.8 Hybrid',
+    ano: 2023,
+    combustivel: 'Híbrido',
+    km: 12000,
+    preco: 26500,
+    potencia: '140 cv',
+    caixa: 'Automática (e-CVT)',
+    cor: 'Vermelho Emotional',
+    destaque: true,
+    imagem: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=900',
+    etiqueta: 'Consumos reduzidos',
+    descricao:
+      'Corolla Hybrid com consumos baixos, Toyota Safety Sense, ecrã multimédia, Apple CarPlay e Android Auto sem fios.'
+  },
+  {
+    id: 6,
+    marca: 'Renault',
+    modelo: 'Clio 1.0 TCe',
+    ano: 2021,
+    combustivel: 'Gasolina',
+    km: 52000,
+    preco: 15900,
+    potencia: '100 cv',
+    caixa: 'Manual',
+    cor: 'Laranja Valência',
+    destaque: false,
+    imagem: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=900',
+    etiqueta: 'Citadino económico',
+    descricao:
+      'Renault Clio Intens com ecrã Easy Link, câmara traseira e sensores de estacionamento. Ideal para cidade.'
+  },
+  {
+    id: 7,
+    marca: 'Audi',
+    modelo: 'A4 Avant 35 TDI',
+    ano: 2020,
+    combustivel: 'Diesel',
+    km: 78000,
+    preco: 28900,
+    potencia: '163 cv',
+    caixa: 'Automática (S tronic)',
+    cor: 'Cinzento Nardo',
+    destaque: false,
+    imagem: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=900',
+    etiqueta: 'Carrinha premium',
+    descricao:
+      'Audi A4 Avant com pacote S Line, Virtual Cockpit Plus, MMI Navigation Plus e portão traseiro elétrico.'
+  },
+  {
+    id: 8,
+    marca: 'Tesla',
+    modelo: 'Model 3 Standard Range',
+    ano: 2023,
+    combustivel: 'Elétrico',
+    km: 9000,
+    preco: 35500,
+    potencia: '283 cv',
+    caixa: 'Automática',
+    cor: 'Branco Pérola',
+    destaque: false,
+    imagem: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=900',
+    etiqueta: '100% elétrico',
+    descricao:
+      'Tesla Model 3 com autonomia WLTP, Autopilot de série, ecrã central, atualizações over-the-air e acesso por smartphone.'
+  },
+  {
+    id: 9,
+    marca: 'Volvo',
+    modelo: 'XC40 T4 Recharge',
+    ano: 2022,
+    combustivel: 'Híbrido Plug-in',
+    km: 32000,
+    preco: 38900,
+    potencia: '211 cv',
+    caixa: 'Automática',
+    cor: 'Verde Sage',
+    destaque: false,
+    imagem: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=900',
+    etiqueta: 'Segurança Volvo',
+    descricao:
+      'Volvo XC40 Recharge com autonomia elétrica para cidade, Pilot Assist, som Harman Kardon e teto panorâmico.'
+  },
+  {
+    id: 10,
+    marca: 'SEAT',
+    modelo: 'Ibiza 1.0 TSI FR',
+    ano: 2022,
+    combustivel: 'Gasolina',
+    km: 25000,
+    preco: 18500,
+    potencia: '110 cv',
+    caixa: 'Manual',
+    cor: 'Vermelho Desire',
+    destaque: false,
+    imagem: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900',
+    etiqueta: 'Visual desportivo',
+    descricao:
+      'SEAT Ibiza FR com Full Link, Digital Cockpit, suspensão desportiva e jantes de 17 polegadas.'
+  }
+];
