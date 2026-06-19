@@ -9,7 +9,7 @@ const emptyForm = {
   consent: false
 };
 
-function ContactForm({ vehicles, selectedVehicleId }) {
+function ContactForm({ vehicles, selectedVehicleId, requestId }) {
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
@@ -19,7 +19,7 @@ function ContactForm({ vehicles, selectedVehicleId }) {
       setForm((currentForm) => ({ ...currentForm, vehicleId: String(selectedVehicleId) }));
       setSuccess(false);
     }
-  }, [selectedVehicleId]);
+  }, [selectedVehicleId, requestId]);
 
   function updateField(event) {
     const { name, value, type, checked } = event.target;

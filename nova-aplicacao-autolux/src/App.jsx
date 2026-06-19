@@ -45,7 +45,7 @@ function App() {
   const [filters, setFilters] = useState(initialFilters);
   const [favoriteIds, setFavoriteIds] = useState(readStoredFavorites);
   const [compareIds, setCompareIds] = useState([]);
-  const [selectedVehicleId, setSelectedVehicleId] = useState('');
+  const [contactRequest, setContactRequest] = useState({ vehicleId: '', requestId: 0 });
 
   useEffect(() => {
     localStorage.setItem('autolux-pro-favorites', JSON.stringify(favoriteIds));
@@ -120,7 +120,10 @@ function App() {
   }
 
   function requestContact(vehicleId) {
-    setSelectedVehicleId(vehicleId);
+    setContactRequest((currentRequest) => ({
+      vehicleId,
+      requestId: currentRequest.requestId + 1
+    }));
     document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -229,7 +232,11 @@ function App() {
           )}
         </section>
 
-        <ContactForm vehicles={vehicles} selectedVehicleId={selectedVehicleId} />
+        <ContactForm
+          vehicles={vehicles}
+          selectedVehicleId={contactRequest.vehicleId}
+          requestId={contactRequest.requestId}
+        />
       </main>
 
       <footer className="site-footer">
