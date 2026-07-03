@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 
-function NotFound() {
+export default function NotFound() {
   return (
-    <section className="section container empty-state">
-      <h1>Página não encontrada</h1>
-      <p>A página que procura não existe ou foi movida.</p>
-      <Link to="/" className="button">Voltar ao início</Link>
+    <section className="section not-found">
+      <div className="container narrow" style={{ textAlign: 'center' }}>
+        <h1>404</h1>
+        <p>Página não encontrada.</p>
+        <Link to="/" className="btn btn-primary">
+          Voltar à Home
+        </Link>
+      </div>
     </section>
   );
 }
-
-export default NotFound;

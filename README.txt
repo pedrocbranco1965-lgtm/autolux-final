@@ -1,62 +1,55 @@
-AutoLux - Projeto Final Frontend com React
+Flavors Restaurante — Site estático
+====================================
 
-Aluno: Pedro Castel-Branco com algumas ajudas do ChatGPT principalmente com a consola pois deu montes de erros quando se fez npm install
+Réplica do site https://www.flavors-restaurante.pt, criada para alojamento independente
+(sem dependência do Wix).
+
+Tecnologias
+-----------
+- React + Vite
+- React Router
+- CSS puro (sem frameworks)
+
+Páginas
+-------
+- Home (/)
+- Sobre Nós (/sobre)
+- Menu (/menu)
+- Eventos (/eventos)
+- Reservas (/reservas)
+- Blog (/blog)
+
+Desenvolvimento local
+---------------------
+npm install
 npm run dev
-npm run build
-Projeto: AutoLux - Stand de automóveis online
 
-Descrição:
-Este projeto é uma aplicação React criada com Vite para um stand automóvel online. Permite consultar um catálogo de viaturas, aplicar filtros, abrir a página de detalhe de cada veículo, adicionar/remover favoritos e simular um pedido de contacto.
-
-Tecnologias utilizadas:
-- React
-- Vite
-- React Router DOM
-- Context API
-- CSS puro organizado
-- Fetch API
-
-Fonte de dados utilizada:
-Ficheiro JSON local.
-Os dados das viaturas estão em public/data/vehicles.json e são carregados com fetch().
-
-Funcionalidades implementadas:
-- Página inicial com banner, pesquisa rápida e 4 viaturas em destaque.
-- Catálogo com listagem de viaturas em cards reutilizáveis.
-- Filtros por marca, combustível, preço máximo, ano mínimo e pesquisa por marca/modelo.
-- Página de detalhe com rota dinâmica /veiculo/:id.
-- Sistema de favoritos com Context API.
-- Contador de favoritos visível na navbar em todas as páginas.
-- Página de favoritos com opção de remover veículos e limpar a lista.
-- Formulário de contacto com campos obrigatórios, validação de email e seleção de uma ou mais viaturas.
-- Botão Pedir Contacto na página de detalhe que pré-seleciona a viatura no formulário.
-- Página Sobre Nós estática.
-- Página 404 para rotas inexistentes.
-- Layout responsivo.
-
-Estrutura principal:
-src/components - Componentes reutilizáveis
-src/pages - Páginas da aplicação
-src/context - Context API dos favoritos
-src/hooks - Hook de carregamento das viaturas
-src/styles - Ficheiro CSS global
-public/data - Ficheiro JSON local com 10 viaturas
-
-Como correr o projeto:
-1. Instalar dependências:
-   npm install
-
-2. Iniciar o servidor de desenvolvimento:
-   npm run dev
-
-3. Abrir o endereço indicado no terminal, normalmente:
-   http://localhost:5173
-
-Como criar versão de produção:
+Build para produção
+-------------------
 npm run build
 
-Notas:
-O projeto foi preparado para cumprir os requisitos técnicos: componentes funcionais, props, useState, useEffect, Context API, React Router, rota dinâmica, fetch, JSX com map/key, CSS organizado e estrutura de pastas clara.
+O resultado fica em dist/ — pode ser alojado em qualquer servidor estático:
+- Netlify, Vercel, GitHub Pages
+- Apache / Nginx
+- Qualquer hosting com suporte a ficheiros estáticos
 
+Para Nginx, configure fallback para index.html nas rotas do React Router.
 
-Nota: os dados do ficheiro vehicles.json foram atualizados com a lista fornecida pelo professor, incluindo os campos potencia, caixa, cor e destaque.
+Reservas
+--------
+O formulário de reservas abre o cliente de email com os dados preenchidos.
+Para reservas online automáticas, pode integrar:
+- TheFork (já referenciado no site)
+- Um backend próprio com API de reservas
+- Serviços como Cal.com ou similar
+
+Imagens
+-------
+As imagens foram descarregadas do site original e estão em public/images/.
+Pode substituí-las pelas suas versões em alta resolução.
+
+Contactos do restaurante
+------------------------
+Telefone: +351 912 323 847
+Email: flavors.geral@gmail.com
+Morada: Espaço Fortuna Artes e Ofícios, Estrada Nacional, Quinta do Anjo, Palmela

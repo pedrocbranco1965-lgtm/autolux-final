@@ -1,25 +1,49 @@
-import { NavLink, Link } from 'react-router-dom';
-import { useFavorites } from '../context/FavoritesContext.jsx';
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { siteInfo } from '../data/site';
 
-function Navbar() {
-  const { favorites } = useFavorites();
+const navLinks = [
+  { to: '/', label: 'Home' },
+  { to: '/sobre', label: 'Sobre Nós' },
+  { to: '/eventos', label: 'Eventos' },
+  { to: '/menu', label: 'Menu' },
+  { to: '/reservas', label: 'Reservar' },
+  { to: '/blog', label: 'Blog' },
+];
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
 
   return (
     <header className="navbar">
-      <Link to="/" className="brand" aria-label="AutoLux página inicial">
-        <span className="brand-mark">AL</span>
-        <span>AutoLux</span>
-      </Link>
+      <div className="container navbar-inner">
+        <Link to="/" className="navbar-logo" onClick={() => setOpen(false)}>
+          <img src="/images/logo.png" alt={siteInfo.name} />
+        </Link>
 
-      <nav className="nav-links" aria-label="Menu principal">
-        <NavLink to="/">Início</NavLink>
-        <NavLink to="/catalogo">Catálogo</NavLink>
-        <NavLink to="/favoritos">Favoritos <span className="badge">{favorites.length}</span></NavLink>
-        <NavLink to="/contacto">Contacto</NavLink>
-        <NavLink to="/sobre">Sobre</NavLink>
-      </nav>
+        <button
+          className={`navbar-toggle ${open ? 'open' : ''}`}
+          onClick={() => setOpen(!open)}
+          aria-label="Abrir menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav className={`navbar-nav ${open ? 'open' : ''}`}>
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === '/'}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }
-
-export default Navbar;
