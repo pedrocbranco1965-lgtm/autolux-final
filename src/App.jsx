@@ -1,26 +1,30 @@
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar.jsx';
-import Footer from './components/Footer.jsx';
-import Home from './pages/Home.jsx';
-import Catalog from './pages/Catalog.jsx';
-import VehicleDetail from './pages/VehicleDetail.jsx';
-import Favorites from './pages/Favorites.jsx';
-import Contact from './pages/Contact.jsx';
-import About from './pages/About.jsx';
-import NotFound from './pages/NotFound.jsx';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import About from './pages/About';
+import Menu from './pages/Menu';
+import Events from './pages/Events';
+import Reservations from './pages/Reservations';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import NotFound from './pages/NotFound';
 
-function App() {
+export default function App() {
   return (
-    <div className="app-shell">
+    <div className="app">
       <Navbar />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/catalogo" element={<Catalog />} />
-          <Route path="/veiculo/:id" element={<VehicleDetail />} />
-          <Route path="/favoritos" element={<Favorites />} />
-          <Route path="/contacto" element={<Contact />} />
           <Route path="/sobre" element={<About />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/eventos" element={<Events />} />
+          <Route path="/reservas" element={<Reservations />} />
+          <Route path="/reservations" element={<Reservations />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -28,5 +32,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
