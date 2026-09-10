@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | AutoStand</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<main class="container py-5" style="max-width: 560px;">
+    <a href="/" class="text-decoration-none">← Voltar ao catalogo</a>
+
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body p-4">
+            <h1 class="h3">Area reservada</h1>
+            <p class="text-muted">O login grava um JWT num cookie HttpOnly. O JavaScript nao consegue le-lo.</p>
+
+            <div id="message"></div>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input id="email" type="email" class="form-control" autocomplete="username" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input id="password" type="password" class="form-control" autocomplete="current-password" required>
+                </div>
+                <button class="btn btn-dark w-100">Entrar</button>
+            </form>
+
+            <hr>
+            <small class="text-muted">Depois de executar npm run seed: admin@autostand.pt / admin123</small>
+        </div>
+    </div>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/login.js"></script>
+</body>
+</html>

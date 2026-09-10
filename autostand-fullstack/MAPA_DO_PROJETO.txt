@@ -1,0 +1,57 @@
+AUTOSTAND FULL STACK
+===================
+
+FRONT END
+public/index.html
+public/login.html
+public/admin.html
+public/js/*.js
+        |
+        | fetch + JSON + cookie HttpOnly (credentials: include)
+        v
+BACK END
+Helmet (CSP e cabecalhos)
+cookie-parser
+rate limit
+server.js
+  v
+app.js
+  v
+routes
+  v
+middleware (auth le cookie ou Bearer)
+  v
+controllers
+  v
+repositories (SQL + paginacao LIMIT/OFFSET)
+  v
+config/database.js
+  v
+MySQL
+
+POO
+Veiculo
+  |-- Carro
+  `-- Moto
+
+DATABASE ABSTRACTION
+BaseRepository
+  |-- VeiculoRepository
+  |-- UserRepository
+  `-- VendaRepository
+
+SECURITY
+bcrypt -> password
+JWT -> cookie HttpOnly (SameSite=Lax)
+authMiddleware -> cookie ou Bearer
+roleMiddleware -> admin/viewer
+Helmet -> CSP / headers
+express-rate-limit -> API + login
+
+OTHER COURSE TOPICS
+JSON -> API request/response
+fs -> logs/app.log
+Jest -> tests/
+.env -> credentials/configuration
+Postman -> cookie jar ou Bearer
+paginacao -> page, limit, totalPages
