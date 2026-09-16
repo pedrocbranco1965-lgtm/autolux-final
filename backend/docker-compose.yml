@@ -1,0 +1,52 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: autolux
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-pautolux"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      DB2_HOST: mysql
+      DB2_PORT: 3306
+      DB2_NAME: autolux_fornecedores
+      DB2_USER: root
+      DB2_PASS: autolux
+      API_PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php.Dockerfile
+    environment:
+      FONTE_DADOS: C
+      DB1_HOST: mysql
+      DB1_PORT: 3306
+      DB1_NAME: autolux_vendas
+      DB1_USER: root
+      DB1_PASS: autolux
+      API_FORNECEDORES_URL: http://api:3000
+      APP_URL: http://localhost:8080
+    ports:
+      - "8080:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      api:
+        condition: service_started

@@ -1,0 +1,95 @@
+GUIA DE ESTUDO — como este backend da AutoLux está feito
+========================================================
+
+Este ficheiro não é o código que o professor avalia. Serve para percebres
+a lógica e conseguires refazer o teu próprio projeto com a tua mão.
+Não copies e cola: usa isto como mapa e escreve tu as páginas.
+
+
+1. O que o enunciado pede, em três frases
+-----------------------------------------
+Há DUAS bases MySQL separadas de propósito.
+
+  BD1 (vendas)     -> só o PHP fala com ela
+  BD2 (compras)    -> só o Node.js fala com ela
+
+A interface que o funcionário vê é PHP. Quando precisa de fornecedores,
+o PHP NÃO abre o MySQL da BD2: faz um pedido HTTP à API Node.
+
+
+2. Ordem boa para construíres o teu
+-----------------------------------
+Passo 1  Desenha as tabelas no papel (clientes, pecas, vendas /
+          fornecedores, encomendas) e cria os .sql
+Passo 2  Faz a API Node com GET fornecedores e POST encomendas.
+          Testa no browser / Thunder Client / curl ANTES de fazer PHP.
+Passo 3  Faz o PHP a ligar à BD1: login, listar peças, filtros.
+Passo 4  Faz o formulário de venda (cliente + peça + pagamento).
+Passo 5  No PHP, cria um "cliente HTTP" que chama a API do passo 2.
+Passo 6  Liga as páginas de fornecedores e encomendas a esse cliente.
+
+
+3. Pagamentos "fáceis de alargar"
+---------------------------------
+O truque não é um if gigante na página.
+
+  interface MetodoPagamento { codigo, nome, descricao, confirmar }
+  class Numerario implements MetodoPagamento { ... }
+  class MbWay implements MetodoPagamento { ... }
+
+  CatalogoPagamentos::todos() devolve a lista.
+
+A página de venda faz foreach nessa lista e desenha radios.
+Para um método novo (ex.: PayPal) crias UMA classe e acrescentas
+UMA linha no catálogo. Zero alterações no HTML do formulário.
+
+Isto é o padrão Strategy, mesmo que não uses o nome na aula.
+
+
+4. Três fontes do catálogo (A / B / C)
+--------------------------------------
+O README do professor pede para dizeres A, B ou C.
+
+  A  JSON em disco          PecaRepositorioJson
+  B  API HTTP               PecaRepositorioApi  -> php/api_pecas.php
+  C  MySQL                  PecaRepositorioMysql
+
+As páginas chamam PecaFactory::criar() e nunca perguntam de onde
+vêm os dados. Se no teu trabalho só precisares de uma fonte,
+implementa só essa (provavelmente C) e explica no README.txt.
+
+
+5. Venda e stock
+----------------
+Registar a venda E abater o stock tem de ser a mesma transação:
+beginTransaction / commit / rollBack. Senão, se o segundo SQL falhar,
+fica venda sem peça ou peça sem venda.
+
+
+6. Segurança mínima que fica bem
+--------------------------------
+- PDO com prepared statements (nunca interpolar $_GET no SQL)
+- htmlspecialchars em TUDO o que vem da BD para o HTML
+- CSRF token nos POST
+- password_hash / password_verify para o login
+
+
+7. Como explicar ao professor em 1 minuto
+-----------------------------------------
+"A interface é PHP. Clientes, stock e vendas estão na BD1, acedida
+pelo PHP. Fornecedores e encomendas estão na BD2, escondida atrás
+de uma API Node. O formulário de venda lista os pagamentos a partir
+de um catálogo de classes, por isso acrescentar MB WAY ou PayPal é
+só mais uma classe. O catálogo de peças nesta entrega lê do MySQL
+(fonte C)."
+
+
+8. Checklist antes de entrega
+-----------------------------
+[ ] git com vários commits (não um único "projeto final")
+[ ] README.txt com o teu nome, npm install / npm start, fonte A/B/C
+[ ] professor consegue abrir a app (Docker ou instruções XAMPP claras)
+[ ] filtros do catálogo funcionam
+[ ] venda grava e reduz stock
+[ ] página de fornecedores falha com mensagem boa se o Node estiver parado
+[ ] POST de encomenda aparece depois na lista
