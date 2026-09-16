@@ -91,6 +91,11 @@ $dadosPagamento = old($formulario, 'pagamento', []);
             </div>
         </div>
 
+        <small class="texto-suave">
+            A peça que ficar selecionada acima é incluída na encomenda ao submeter.
+            Use "Adicionar outra peça" apenas para encomendar várias peças de uma só vez.
+        </small>
+
         <div class="info-peca espacamento-topo" id="info-peca" data-vazio="Selecione uma peça para ver os detalhes.">
             Selecione uma peça para ver os detalhes.
         </div>
