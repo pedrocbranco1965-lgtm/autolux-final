@@ -1,19 +1,15 @@
 {
-  "name": "autolux-react-final",
+  "name": "autolux-backend-final",
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "fornecedores-api"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-router-dom": "latest"
-  },
-  "devDependencies": {}
+    "start": "npm --workspace fornecedores-api start",
+    "dev": "npm --workspace fornecedores-api run dev",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down"
+  }
 }
