@@ -1,19 +1,19 @@
 {
-  "name": "autolux-react-final",
+  "name": "autolux-backend",
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "API REST de fornecedores e encomendas do projeto AutoLux",
+  "main": "api/src/server.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "node api/src/server.js",
+    "dev": "node --watch api/src/server.js",
+    "test": "node --test api/test/*.test.js"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-router-dom": "latest"
-  },
-  "devDependencies": {}
+    "cors": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "mysql2": "latest"
+  }
 }

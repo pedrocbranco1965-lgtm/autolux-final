@@ -1,62 +1,110 @@
-AutoLux - Projeto Final Frontend com React
+AUTOLUX — PROJETO FINAL DE BACKEND
+===================================
 
-Aluno: Pedro Castel-Branco com algumas ajudas do ChatGPT principalmente com a consola pois deu montes de erros quando se fez npm install
-npm run dev
-npm run build
-Projeto: AutoLux - Stand de automóveis online
+Aluno: Pedro Castel-Branco
+Fonte de dados utilizada: C — bases de dados MySQL locais com dados de demonstração.
 
-Descrição:
-Este projeto é uma aplicação React criada com Vite para um stand automóvel online. Permite consultar um catálogo de viaturas, aplicar filtros, abrir a página de detalhe de cada veículo, adicionar/remover favoritos e simular um pedido de contacto.
+DESCRIÇÃO
+---------
+Aplicação web para a gestão de um armazém de peças automóveis. A interface e o
+backend de vendas são desenvolvidos em PHP. A gestão de fornecedores é feita
+através de uma API REST Node.js. Cada componente utiliza a sua própria base de
+dados MySQL, conforme o enunciado.
 
-Tecnologias utilizadas:
-- React
-- Vite
-- React Router DOM
-- Context API
-- CSS puro organizado
-- Fetch API
+FUNCIONALIDADES
+---------------
+- Painel com totais de peças, stock, clientes e vendas.
+- Catálogo de peças obtido do MySQL.
+- Filtros por marca, tipo, preço máximo e pesquisa por nome/SKU.
+- Lista de clientes e resumo das respetivas compras.
+- Formulário de venda com dropdown de clientes, peça, quantidade e pagamento.
+- Métodos de pagamento guardados numa tabela para permitir adicionar novos.
+- Registo transacional de vendas e redução automática do stock.
+- Histórico de vendas.
+- Lista de fornecedores recebida da API Node.js.
+- Submissão de encomendas a fornecedores através da API REST.
+- Validação de dados, controlo de stock e transações na API.
+- Interface responsiva e proteção CSRF nos formulários.
 
-Fonte de dados utilizada:
-Ficheiro JSON local.
-Os dados das viaturas estão em public/data/vehicles.json e são carregados com fetch().
+ARQUITETURA
+-----------
 
-Funcionalidades implementadas:
-- Página inicial com banner, pesquisa rápida e 4 viaturas em destaque.
-- Catálogo com listagem de viaturas em cards reutilizáveis.
-- Filtros por marca, combustível, preço máximo, ano mínimo e pesquisa por marca/modelo.
-- Página de detalhe com rota dinâmica /veiculo/:id.
-- Sistema de favoritos com Context API.
-- Contador de favoritos visível na navbar em todas as páginas.
-- Página de favoritos com opção de remover veículos e limpar a lista.
-- Formulário de contacto com campos obrigatórios, validação de email e seleção de uma ou mais viaturas.
-- Botão Pedir Contacto na página de detalhe que pré-seleciona a viatura no formulário.
-- Página Sobre Nós estática.
-- Página 404 para rotas inexistentes.
-- Layout responsivo.
+Navegador
+   |
+   v
+Interface PHP (porta 8080) --------> Base 1: autolux_vendas
+   |
+   | HTTP/JSON
+   v
+API Node.js (porta 3000) ----------> Base 2: autolux_fornecedores
 
-Estrutura principal:
-src/components - Componentes reutilizáveis
-src/pages - Páginas da aplicação
-src/context - Context API dos favoritos
-src/hooks - Hook de carregamento das viaturas
-src/styles - Ficheiro CSS global
-public/data - Ficheiro JSON local com 10 viaturas
+Estrutura:
+- php-app/public: páginas PHP e estilos.
+- php-app/src: configuração, funções e elementos comuns.
+- api/src: API REST Node.js/Express.
+- api/test: testes automáticos da validação.
+- database/sales/init.sql: clientes, peças, pagamentos e vendas.
+- database/suppliers/init.sql: fornecedores, peças e encomendas.
+- docker-compose.yml: arranque dos quatro serviços.
 
-Como correr o projeto:
-1. Instalar dependências:
+COMO EXECUTAR (MÉTODO RECOMENDADO)
+---------------------------------
+Pré-requisitos: Docker Desktop (Windows/macOS) ou Docker Engine com Compose.
+
+1. Abrir um terminal na pasta do projeto.
+2. Criar a configuração local:
+   cp .env.example .env
+
+   No Windows PowerShell:
+   Copy-Item .env.example .env
+
+3. Construir e iniciar:
+   docker compose up --build
+
+4. Esperar até as duas bases de dados indicarem que estão prontas.
+5. Abrir:
+   http://localhost:8080
+
+A API pode ser consultada em:
+- http://localhost:3000/api/health
+- http://localhost:3000/api/suppliers
+- http://localhost:3000/api/orders
+
+Para parar:
+   docker compose down
+
+Para apagar as bases e voltar aos dados iniciais:
+   docker compose down -v
+   docker compose up --build
+
+EXECUTAR A API NODE.JS SEM DOCKER
+--------------------------------
+É necessário ter MySQL e executar primeiro database/suppliers/init.sql.
+
+1. Instalar:
    npm install
 
-2. Iniciar o servidor de desenvolvimento:
-   npm run dev
+2. Definir as variáveis DB_HOST, DB_PORT, DB_NAME, DB_USER e DB_PASSWORD.
+3. Iniciar:
+   npm start
 
-3. Abrir o endereço indicado no terminal, normalmente:
-   http://localhost:5173
+Por omissão, a API procura MySQL em localhost:3308 e fica na porta 3000.
 
-Como criar versão de produção:
-npm run build
+TESTES
+------
+   npm test
 
-Notas:
-O projeto foi preparado para cumprir os requisitos técnicos: componentes funcionais, props, useState, useEffect, Context API, React Router, rota dinâmica, fetch, JSX com map/key, CSS organizado e estrutura de pastas clara.
+NOTA SOBRE OS DADOS
+-------------------
+Os nomes, emails e peças incluídos nos ficheiros SQL são dados fictícios para
+demonstração. Se a designação A/B/C usada pelo professor atribuir outra letra
+a dados MySQL locais, alterar apenas a linha "Fonte de dados utilizada" acima.
 
+COMO ADICIONAR UM MÉTODO DE PAGAMENTO
+-------------------------------------
+Não é preciso alterar a página PHP. Basta inserir um registo na Base 1:
 
-Nota: os dados do ficheiro vehicles.json foram atualizados com a lista fornecida pelo professor, incluindo os campos potencia, caixa, cor e destaque.
+INSERT INTO payment_methods (code, name)
+VALUES ('cheque', 'Cheque');
+
+O novo método passa automaticamente a aparecer no formulário de venda.

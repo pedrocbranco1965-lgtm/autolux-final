@@ -1,0 +1,74 @@
+services:
+  vendas-db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: autolux_vendas
+      MYSQL_USER: autolux
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-autolux}
+    ports:
+      - "3307:3306"
+    volumes:
+      - vendas_data:/var/lib/mysql
+      - ./database/sales/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uautolux", "-p${MYSQL_PASSWORD:-autolux}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  fornecedores-db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: autolux_fornecedores
+      MYSQL_USER: autolux
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-autolux}
+    ports:
+      - "3308:3306"
+    volumes:
+      - fornecedores_data:/var/lib/mysql
+      - ./database/suppliers/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uautolux", "-p${MYSQL_PASSWORD:-autolux}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  fornecedores-api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      PORT: 3000
+      DB_HOST: fornecedores-db
+      DB_PORT: 3306
+      DB_NAME: autolux_fornecedores
+      DB_USER: autolux
+      DB_PASSWORD: ${MYSQL_PASSWORD:-autolux}
+    ports:
+      - "3000:3000"
+    depends_on:
+      fornecedores-db:
+        condition: service_healthy
+
+  php:
+    build: ./php-app
+    environment:
+      SALES_DB_HOST: vendas-db
+      SALES_DB_PORT: 3306
+      SALES_DB_NAME: autolux_vendas
+      SALES_DB_USER: autolux
+      SALES_DB_PASSWORD: ${MYSQL_PASSWORD:-autolux}
+      SUPPLIERS_API_URL: http://fornecedores-api:3000/api
+    ports:
+      - "8080:80"
+    depends_on:
+      vendas-db:
+        condition: service_healthy
+      fornecedores-api:
+        condition: service_started
+
+volumes:
+  vendas_data:
+  fornecedores_data:
