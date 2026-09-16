@@ -1,3 +1,9 @@
+Este repositório contém dois projetos AutoLux:
+  - raiz/            Projeto final de Frontend (React + Vite) - descrito abaixo
+  - autolux-backend/ Projeto final de Backend (PHP + MySQL + Node.js) - ver autolux-backend/README.txt
+
+===========================================================================
+
 AutoLux - Projeto Final Frontend com React
 
 Aluno: Pedro Castel-Branco com algumas ajudas do ChatGPT principalmente com a consola pois deu montes de erros quando se fez npm install
