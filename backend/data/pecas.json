@@ -1,0 +1,167 @@
+[
+  {
+    "id": 1,
+    "referencia": "BOS-FO-001",
+    "nome": "Filtro de óleo P3330",
+    "marca": "Bosch",
+    "tipo": "Filtro",
+    "preco": 8.9,
+    "stock": 42,
+    "descricao": "Filtro de óleo original Bosch para motores a gasolina e diesel. Substituição recomendada a cada 15 000 km.",
+    "imagem": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800"
+  },
+  {
+    "id": 2,
+    "referencia": "MAN-FA-014",
+    "nome": "Filtro de ar C 27 127",
+    "marca": "Mann-Filter",
+    "tipo": "Filtro",
+    "preco": 16.5,
+    "stock": 28,
+    "descricao": "Filtro de ar de elevado caudal, reduz o consumo e protege o motor de partículas.",
+    "imagem": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800"
+  },
+  {
+    "id": 3,
+    "referencia": "BRE-PT-320",
+    "nome": "Pastilhas de travão dianteiras",
+    "marca": "Brembo",
+    "tipo": "Travagem",
+    "preco": 64.9,
+    "stock": 18,
+    "descricao": "Jogo de pastilhas cerâmicas Brembo para eixo dianteiro. Baixo ruído e menor desgaste do disco.",
+    "imagem": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800"
+  },
+  {
+    "id": 4,
+    "referencia": "BRE-DT-118",
+    "nome": "Disco de travão ventilado 280mm",
+    "marca": "Brembo",
+    "tipo": "Travagem",
+    "preco": 49,
+    "stock": 12,
+    "descricao": "Disco ventilado de 280 mm, tratamento anticorrosão. Vendido à unidade.",
+    "imagem": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800"
+  },
+  {
+    "id": 5,
+    "referencia": "NGK-VI-095",
+    "nome": "Vela de ignição Iridium IX",
+    "marca": "NGK",
+    "tipo": "Ignição",
+    "preco": 12.75,
+    "stock": 60,
+    "descricao": "Vela iridium de longa duração. Melhora a arranque a frio e a combustão.",
+    "imagem": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800"
+  },
+  {
+    "id": 6,
+    "referencia": "VAR-BT-074",
+    "nome": "Bateria Silver Dynamic 74Ah",
+    "marca": "Varta",
+    "tipo": "Elétrica",
+    "preco": 119,
+    "stock": 7,
+    "descricao": "Bateria 12V 74Ah 680A. Adequada a veículos com Start-Stop básico.",
+    "imagem": "https://images.unsplash.com/photo-1619642751034-76571cca2583?w=800"
+  },
+  {
+    "id": 7,
+    "referencia": "SAC-AM-210",
+    "nome": "Amortecedor dianteiro Super Touring",
+    "marca": "Sachs",
+    "tipo": "Suspensão",
+    "preco": 89.5,
+    "stock": 9,
+    "descricao": "Amortecedor de pressão de gás para eixo dianteiro. Conforto e estabilidade em estrada.",
+    "imagem": "https://images.unsplash.com/photo-1493238792000-8113da705763?w=800"
+  },
+  {
+    "id": 8,
+    "referencia": "GAT-CD-055",
+    "nome": "Kit correia de distribuição",
+    "marca": "Gates",
+    "tipo": "Motor",
+    "preco": 142,
+    "stock": 6,
+    "descricao": "Kit completo: correia, tensor e bomba de água. Substituição aos 90 000 / 120 000 km conforme marca.",
+    "imagem": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800"
+  },
+  {
+    "id": 9,
+    "referencia": "CAS-OL-5W30",
+    "nome": "Óleo de motor Magnatec 5W-30 5L",
+    "marca": "Castrol",
+    "tipo": "Lubrificante",
+    "preco": 38.9,
+    "stock": 35,
+    "descricao": "Óleo sintético 5W-30 ACEA C3. Proteção em arranques a frio e intervalos alargados.",
+    "imagem": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800"
+  },
+  {
+    "id": 10,
+    "referencia": "SKF-RO-440",
+    "nome": "Rolamento de roda kit VKBA 3644",
+    "marca": "SKF",
+    "tipo": "Transmissão",
+    "preco": 54.2,
+    "stock": 14,
+    "descricao": "Kit de rolamento de roda com cubo. Inclui anel ABS onde aplicável.",
+    "imagem": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800"
+  },
+  {
+    "id": 11,
+    "referencia": "OSR-LP-H7",
+    "nome": "Lâmpada H7 Night Breaker 2un",
+    "marca": "Osram",
+    "tipo": "Iluminação",
+    "preco": 22.4,
+    "stock": 40,
+    "descricao": "Par de lâmpadas H7 com até +150% de luminosidade. Homologadas para estrada.",
+    "imagem": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800"
+  },
+  {
+    "id": 12,
+    "referencia": "LUK-EM-620",
+    "nome": "Kit de embraiagem RepSet",
+    "marca": "LuK",
+    "tipo": "Transmissão",
+    "preco": 189,
+    "stock": 4,
+    "descricao": "Kit com disco, placa de pressão e rolamento de encosto. Para veículos utilitários a gasolina.",
+    "imagem": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800"
+  },
+  {
+    "id": 13,
+    "referencia": "VAL-AL-330",
+    "nome": "Alternador 120A reconstruído",
+    "marca": "Valeo",
+    "tipo": "Elétrica",
+    "preco": 165,
+    "stock": 3,
+    "descricao": "Alternador Valeo 120A, reconstruído com garantia de 24 meses. Testado em banco.",
+    "imagem": "https://images.unsplash.com/photo-1619642751034-76571cca2583?w=800"
+  },
+  {
+    "id": 14,
+    "referencia": "FEB-SN-ABS",
+    "nome": "Sensor ABS dianteiro direito",
+    "marca": "Febi",
+    "tipo": "Elétrica",
+    "preco": 27.8,
+    "stock": 16,
+    "descricao": "Sensor de velocidade da roda, conector original. Compatível com várias plataformas PSA e VAG.",
+    "imagem": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800"
+  },
+  {
+    "id": 15,
+    "referencia": "BOS-IN-401",
+    "nome": "Injetador diesel common-rail",
+    "marca": "Bosch",
+    "tipo": "Motor",
+    "preco": 210,
+    "stock": 5,
+    "descricao": "Injetador Bosch reconstruído, debitado e selado. Exige código de programação na viatura.",
+    "imagem": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800"
+  }
+]
