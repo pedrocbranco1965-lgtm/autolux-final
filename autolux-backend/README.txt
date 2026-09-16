@@ -82,7 +82,11 @@ vendas de peças e encomendarem novas peças aos fornecedores.
 
        npm start
 
-     Abrir no browser:  http://localhost:8000
+     Abrir no browser:  http://localhost:8000  (aparece a página de login)
+
+     Credenciais de teste:
+       admin / admin123   -> administrador (acesso total + gestão de funcionários)
+       ana   / ana123     -> funcionária (todas as operações exceto gerir funcionários)
 
      Para arrancar separadamente:
        npm run start:api   -> API Node.js   http://localhost:3000/api/health
@@ -137,6 +141,26 @@ vendas de peças e encomendarem novas peças aos fornecedores.
      - Se a API estiver em baixo a interface mostra uma mensagem clara em vez
        de rebentar.
 
+  Autenticação de funcionários
+     - Todas as páginas exigem sessão iniciada (verificado centralmente em
+       php/src/bootstrap.php); a única página pública é login.php.
+     - login.php / logout.php com a classe AutoLux\Auth (sessão PHP):
+         . passwords guardadas como hash bcrypt (password_hash / password_verify),
+           nunca em claro;
+         . session_regenerate_id() no login (contra session fixation);
+         . bloqueio de 60 s após 5 tentativas falhadas (contra força bruta);
+         . mensagem genérica "utilizador ou password incorretos";
+         . redirect de volta à página pedida após o login (só para páginas internas).
+     - Dois perfis: 'admin' e 'funcionario'. A página funcionarios.php (criar,
+       ativar/desativar, redefinir password) é exclusiva do admin
+       (Auth::exigirAdmin()). Não é possível desativar a própria conta nem o
+       último administrador ativo; contas desativadas não conseguem entrar.
+     - Cada venda guarda o funcionário que a registou (vendas.funcionario_id)
+       e cada encomenda a fornecedor leva o nome de quem a submeteu
+       (campo criado_por, enviado pelo PHP para a API Node.js).
+     - Proteção CSRF: todos os formulários POST incluem um token de sessão
+       (campoCsrf()) validado automaticamente no bootstrap; o logout é por POST.
+
   Extras
      - Painel inicial (index.php) com indicadores das duas bases de dados e
        alerta de peças abaixo do stock mínimo.
@@ -156,7 +180,7 @@ vendas de peças e encomendarem novas peças aos fornecedores.
   GET    /api/encomendas[?estado=&fornecedor_id=]  lista encomendas
   GET    /api/encomendas/:id              encomenda com itens
   POST   /api/encomendas                  cria encomenda (transação)
-                                          { fornecedor_id, observacoes?, itens:[{referencia_peca, descricao, quantidade, preco_unitario}] }
+                                          { fornecedor_id, observacoes?, criado_por?, itens:[{referencia_peca, descricao, quantidade, preco_unitario}] }
   PATCH  /api/encomendas/:id/estado       { estado: pendente|enviada|recebida|cancelada }
 
   Erros devolvidos em JSON: { "erro": "...", "detalhes": [...] } com o código
@@ -171,7 +195,7 @@ vendas de peças e encomendarem novas peças aos fornecedores.
     package.json              scripts npm (install / start / db:setup / test:api)
     .env.example              configuração (copiar para .env)
     database/
-      bd1_vendas.sql          BD1: clientes, marcas, tipos_peca, pecas, vendas, vendas_itens
+      bd1_vendas.sql          BD1: funcionarios, clientes, marcas, tipos_peca, pecas, vendas, vendas_itens
       bd2_fornecedores.sql    BD2: fornecedores, encomendas, encomendas_itens
     scripts/
       setup-db.js             executa os .sql (npm run db:setup)
@@ -184,6 +208,9 @@ vendas de peças e encomendarem novas peças aos fornecedores.
       src/routes/encomendas.js
     php/
       public/                 páginas acessíveis pelo browser
+        login.php             autenticação (única página pública)
+        logout.php            terminar sessão (POST)
+        funcionarios.php      gestão de funcionários (só admin)
         index.php             painel
         pecas.php             A) catálogo com filtros
         clientes.php          clientes (lista + novo)
@@ -196,9 +223,11 @@ vendas de peças e encomendarem novas peças aos fornecedores.
         router.php            router do servidor embutido do PHP
         assets/estilos.css, assets/app.js
       src/
-        bootstrap.php         config, autoload, sessão, funções auxiliares
+        bootstrap.php         config, autoload, sessão, CSRF, autenticação, funções auxiliares
         Database.php          ligação PDO (singleton) à BD1
-        Repositorios/         PecaRepository, ClienteRepository, VendaRepository
+        Auth.php              login/logout, sessão, perfis, bloqueio de tentativas
+        Repositorios/         PecaRepository, ClienteRepository, VendaRepository,
+                              FuncionarioRepository
         Pagamentos/           MetodoPagamento (interface) + Dinheiro, Multibanco,
                               MBWay, CartaoCredito, Transferencia, RegistoPagamentos
         Api/                  FornecedoresApiClient (cURL) + ApiException

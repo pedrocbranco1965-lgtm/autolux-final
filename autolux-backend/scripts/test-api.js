@@ -38,6 +38,7 @@ function verificar(descricao, condicao, extra = '') {
   const criada = await pedido('POST', '/encomendas', {
     fornecedor_id: fornecedorId,
     observacoes: 'Encomenda de teste (scripts/test-api.js)',
+    criado_por: 'Script de teste',
     itens: [
       { referencia_peca: 'IG-BKR6E', descricao: 'Vela de ignição', quantidade: 100, preco_unitario: 2.9 },
       { referencia_peca: 'FL-C30135', descricao: 'Filtro de ar', quantidade: 20, preco_unitario: 9.1 },
@@ -48,6 +49,7 @@ function verificar(descricao, condicao, extra = '') {
 
   const detalhe = await pedido('GET', `/encomendas/${criada.dados.id}`);
   verificar('GET /encomendas/:id devolve itens', detalhe.status === 200 && detalhe.dados.itens.length === 2);
+  verificar('criado_por guardado na encomenda', detalhe.dados.criado_por === 'Script de teste');
 
   const estado = await pedido('PATCH', `/encomendas/${criada.dados.id}/estado`, { estado: 'enviada' });
   verificar('PATCH /encomendas/:id/estado altera estado', estado.status === 200 && estado.dados.estado === 'enviada');
