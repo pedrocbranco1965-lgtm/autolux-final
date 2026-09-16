@@ -1,0 +1,25 @@
+{
+  "name": "autolux-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AutoLux - Gestão de armazém de peças automóveis (PHP + MySQL + Node.js)",
+  "main": "node-api/server.js",
+  "scripts": {
+    "db:setup": "node scripts/setup-db.js",
+    "start:api": "node node-api/server.js",
+    "start:php": "php -S localhost:8000 -t php/public php/public/router.php",
+    "start": "concurrently -n api,php -c blue,magenta \"npm run start:api\" \"npm run start:php\"",
+    "dev": "concurrently -n api,php -c blue,magenta \"node --watch node-api/server.js\" \"npm run start:php\"",
+    "test:api": "node scripts/test-api.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  }
+}
