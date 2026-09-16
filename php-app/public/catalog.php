@@ -7,6 +7,7 @@ $db = salesDb();
 $brand = trim((string) ($_GET['brand'] ?? ''));
 $type = trim((string) ($_GET['type'] ?? ''));
 $search = trim((string) ($_GET['search'] ?? ''));
+$minPrice = filter_input(INPUT_GET, 'min_price', FILTER_VALIDATE_FLOAT);
 $maxPrice = filter_input(INPUT_GET, 'max_price', FILTER_VALIDATE_FLOAT);
 
 $conditions = [];
@@ -18,6 +19,10 @@ if ($brand !== '') {
 if ($type !== '') {
     $conditions[] = 'type = ?';
     $parameters[] = $type;
+}
+if ($minPrice !== false && $minPrice !== null && $minPrice >= 0) {
+    $conditions[] = 'price >= ?';
+    $parameters[] = $minPrice;
 }
 if ($maxPrice !== false && $maxPrice !== null && $maxPrice >= 0) {
     $conditions[] = 'price <= ?';
@@ -74,6 +79,10 @@ require __DIR__ . '/../src/partials/header.php';
                 </option>
             <?php endforeach; ?>
         </select>
+    </label>
+    <label>Preço mínimo
+        <input type="number" min="0" step="0.01" name="min_price"
+               value="<?= $minPrice !== false && $minPrice !== null ? h((string) $minPrice) : '' ?>">
     </label>
     <label>Preço máximo
         <input type="number" min="0" step="0.01" name="max_price"

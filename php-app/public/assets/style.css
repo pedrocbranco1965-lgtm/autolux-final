@@ -110,7 +110,7 @@ h2 { font-size: 21px; }
 .panel { padding: 24px; margin-top: 22px; }
 .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 
-.filters { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; align-items: end; gap: 14px; }
+.filters { display: grid; grid-template-columns: 2fr repeat(4, 1fr) auto; align-items: end; gap: 14px; }
 label { display: block; color: #344054; font-size: 13px; font-weight: 700; }
 input, select, textarea {
     width: 100%;
