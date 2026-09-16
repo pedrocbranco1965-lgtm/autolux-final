@@ -16,6 +16,24 @@ DROP TABLE IF EXISTS pecas;
 DROP TABLE IF EXISTS tipos_peca;
 DROP TABLE IF EXISTS marcas;
 DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS funcionarios;
+
+-- ---------------------------------------------------------------------
+-- Funcionários (utilizadores da interface de gestão)
+-- A password é guardada como hash bcrypt (PHP password_hash / password_verify).
+-- perfil: 'admin' gere funcionários; 'funcionario' usa a aplicação.
+-- ---------------------------------------------------------------------
+CREATE TABLE funcionarios (
+  id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nome           VARCHAR(120) NOT NULL,
+  utilizador     VARCHAR(40)  NOT NULL UNIQUE,
+  email          VARCHAR(160) NOT NULL,
+  password_hash  VARCHAR(255) NOT NULL,
+  perfil         ENUM('admin','funcionario') NOT NULL DEFAULT 'funcionario',
+  ativo          TINYINT(1)   NOT NULL DEFAULT 1,
+  ultimo_login   DATETIME     NULL,
+  criado_em      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
 -- Clientes
@@ -75,12 +93,14 @@ CREATE INDEX idx_pecas_preco ON pecas(preco);
 CREATE TABLE vendas (
   id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   cliente_id      INT UNSIGNED  NOT NULL,
+  funcionario_id  INT UNSIGNED  NULL,          -- quem registou a venda
   data_venda      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   tipo_pagamento  VARCHAR(40)   NOT NULL,
   detalhe_pagamento VARCHAR(160) NULL,
   total           DECIMAL(10,2) NOT NULL DEFAULT 0,
   observacoes     VARCHAR(255)  NULL,
-  CONSTRAINT fk_vendas_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+  CONSTRAINT fk_vendas_cliente     FOREIGN KEY (cliente_id)     REFERENCES clientes(id),
+  CONSTRAINT fk_vendas_funcionario FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE vendas_itens (
@@ -97,6 +117,12 @@ CREATE TABLE vendas_itens (
 -- =====================================================================
 -- Dados de exemplo
 -- =====================================================================
+
+-- Funcionários de teste (passwords: admin -> admin123 | ana -> ana123)
+INSERT INTO funcionarios (nome, utilizador, email, password_hash, perfil) VALUES
+  ('Administrador', 'admin', 'admin@autolux.pt',      '$2y$10$CSDfjJcRWNvAHxHjJaB7Ne1ASfRiqwMR9OeBKmIkWCskBdpNJl/QS', 'admin'),
+  ('Ana Martins',   'ana',   'ana.martins@autolux.pt', '$2y$10$VAzNiVDj3ehtIAJq2nkcNuQPVDmvZUO293H4hPMQx2M4LRjhDhzR.', 'funcionario');
+
 INSERT INTO clientes (nome, nif, email, telefone, morada) VALUES
   ('Oficina Silva & Filhos',   '501234567', 'geral@oficinasilva.pt',   '212345678', 'Rua das Oficinas 12, Setúbal'),
   ('Auto Reparações Norte',    '502345678', 'compras@arnorte.pt',      '225678901', 'Av. da Boavista 900, Porto'),
@@ -143,8 +169,8 @@ INSERT INTO pecas (referencia, nome, descricao, marca_id, tipo_id, preco, stock,
     (SELECT id FROM marcas WHERE nome='Brembo'),       (SELECT id FROM tipos_peca WHERE nome='Travões'), 36.40, 28, 10);
 
 -- Uma venda de exemplo já registada
-INSERT INTO vendas (cliente_id, tipo_pagamento, detalhe_pagamento, total, observacoes)
-VALUES (1, 'multibanco', 'Ref. 123 456 789', 95.55, 'Venda de demonstração');
+INSERT INTO vendas (cliente_id, funcionario_id, tipo_pagamento, detalhe_pagamento, total, observacoes)
+VALUES (1, 2, 'multibanco', 'Ref. 123 456 789', 95.55, 'Venda de demonstração');
 
 INSERT INTO vendas_itens (venda_id, peca_id, quantidade, preco_unitario) VALUES
   (1, (SELECT id FROM pecas WHERE referencia='BR-0986494'), 2, 42.90),

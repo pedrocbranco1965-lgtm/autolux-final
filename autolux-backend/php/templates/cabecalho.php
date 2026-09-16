@@ -13,11 +13,15 @@ $menu = [
     'fornecedores'           => ['Fornecedores',      'fornecedores.php'],
     'encomendas_fornecedor'  => ['Encomendas',        'encomendas_fornecedor.php'],
 ];
+if (AutoLux\Auth::ehAdmin()) {
+    $menu['funcionarios'] = ['Funcionários', 'funcionarios.php'];
+}
 $ativos = [
     'venda_detalhe'        => 'vendas',
     'encomenda_fornecedor' => 'encomendas_fornecedor',
 ];
 $paginaAtiva = $ativos[$paginaAtual] ?? $paginaAtual;
+$utilizadorAtual = $utilizadorAtual ?? AutoLux\Auth::utilizador();
 ?>
 <!doctype html>
 <html lang="pt">
@@ -35,6 +39,18 @@ $paginaAtiva = $ativos[$paginaAtual] ?? $paginaAtual;
       <a href="<?= $url ?>" class="<?= $paginaAtiva === $chave ? 'ativo' : '' ?>"><?= $rotulo ?></a>
     <?php endforeach; ?>
   </nav>
+  <?php if ($utilizadorAtual): ?>
+  <div class="sessao">
+    <span class="sessao-nome" title="<?= e($utilizadorAtual['email']) ?>">
+      <?= e($utilizadorAtual['nome']) ?>
+      <small><?= $utilizadorAtual['perfil'] === 'admin' ? 'administrador' : 'funcionário' ?></small>
+    </span>
+    <form method="post" action="logout.php">
+      <?= campoCsrf() ?>
+      <button class="botao botao-pequeno botao-secundario" type="submit">Sair</button>
+    </form>
+  </div>
+  <?php endif; ?>
 </header>
 
 <main class="conteudo">

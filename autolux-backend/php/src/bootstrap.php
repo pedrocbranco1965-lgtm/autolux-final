@@ -33,6 +33,7 @@ $pagamentos = new AutoLux\Pagamentos\RegistoPagamentos(require dirname(__DIR__) 
 $apiFornecedores = new AutoLux\Api\FornecedoresApiClient($config['API_BASE_URL']);
 
 if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
     session_start();
 }
 
@@ -90,4 +91,48 @@ function badgeEstado(string $estado): string
 {
     $classes = ['pendente' => 'aviso', 'enviada' => 'info', 'recebida' => 'sucesso', 'cancelada' => 'erro'];
     return '<span class="badge badge-' . ($classes[$estado] ?? 'neutro') . '">' . e($estado) . '</span>';
+}
+
+// ---------------------------------------------------------------------------
+// Proteção CSRF: cada formulário POST inclui um token secreto da sessão
+// (impresso com a função campoCsrf()) que é verificado aqui em todos os pedidos POST.
+// ---------------------------------------------------------------------------
+
+function tokenCsrf(): string
+{
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+/** Campo escondido a colocar dentro de cada <form method="post">. */
+function campoCsrf(): string
+{
+    return '<input type="hidden" name="csrf_token" value="' . e(tokenCsrf()) . '">';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'
+    && !hash_equals(tokenCsrf(), (string) ($_POST['csrf_token'] ?? ''))) {
+    http_response_code(403);
+    flash('erro', 'Pedido inválido ou sessão expirada (token CSRF). Volte a submeter o formulário.');
+    redirecionar(basename($_SERVER['SCRIPT_NAME']));
+}
+
+// ---------------------------------------------------------------------------
+// Autenticação: todas as páginas exigem sessão iniciada, exceto o login.
+// ---------------------------------------------------------------------------
+
+$paginasPublicas = ['login.php'];
+$utilizadorAtual = null;
+try {
+    if (!in_array(basename($_SERVER['SCRIPT_NAME']), $paginasPublicas, true)) {
+        AutoLux\Auth::exigirAutenticacao();
+    }
+    $utilizadorAtual = AutoLux\Auth::utilizador();
+} catch (Throwable $excecao) {
+    // Sem base de dados não há como validar a sessão: mostra a página de erro
+    $titulo = 'Base de dados indisponível';
+    require dirname(__DIR__) . '/templates/erro.php';
+    exit;
 }

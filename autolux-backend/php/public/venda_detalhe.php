@@ -28,7 +28,7 @@ if (!$venda): ?>
   <div>
     <p class="rotulo">Venda</p>
     <h1>Venda nº <?= $venda['id'] ?></h1>
-    <p><?= formatarData($venda['data_venda']) ?></p>
+    <p><?= formatarData($venda['data_venda']) ?> · registada por <?= e($venda['funcionario'] ?? 'funcionário removido') ?></p>
   </div>
   <div class="acoes">
     <a href="venda.php?cliente_id=<?= $venda['cliente_id'] ?>" class="botao botao-secundario">Nova venda a este cliente</a>

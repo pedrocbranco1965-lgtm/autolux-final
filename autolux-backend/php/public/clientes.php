@@ -73,6 +73,7 @@ require __DIR__ . '/../templates/cabecalho.php';
   <section class="cartao">
     <h2>Novo cliente</h2>
     <form method="post" action="clientes.php" class="formulario" novalidate>
+      <?= campoCsrf() ?>
       <label>Nome *
         <input type="text" name="nome" value="<?= antigo('nome') ?>" required>
         <?php if (isset($erros['nome'])): ?><span class="erro-campo"><?= e($erros['nome']) ?></span><?php endif; ?>

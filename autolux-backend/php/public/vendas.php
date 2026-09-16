@@ -30,17 +30,18 @@ require __DIR__ . '/../templates/cabecalho.php';
 <section class="cartao">
   <table class="tabela">
     <thead>
-      <tr><th>#</th><th>Data</th><th>Cliente</th><th>Pagamento</th><th class="num">Linhas</th><th class="num">Unidades</th><th class="num">Total</th><th></th></tr>
+      <tr><th>#</th><th>Data</th><th>Cliente</th><th>Funcionário</th><th>Pagamento</th><th class="num">Linhas</th><th class="num">Unidades</th><th class="num">Total</th><th></th></tr>
     </thead>
     <tbody>
       <?php if (!$lista): ?>
-        <tr><td colspan="8" class="texto-suave">Ainda não há vendas registadas.</td></tr>
+        <tr><td colspan="9" class="texto-suave">Ainda não há vendas registadas.</td></tr>
       <?php endif; ?>
       <?php foreach ($lista as $v): ?>
       <tr>
         <td>#<?= $v['id'] ?></td>
         <td><?= formatarData($v['data_venda']) ?></td>
         <td><?= e($v['cliente']) ?></td>
+        <td><?= e($v['funcionario'] ?? '—') ?></td>
         <td><?= e($pagamentos->nomePorCodigo($v['tipo_pagamento'])) ?><br><small class="texto-suave"><?= e($v['detalhe_pagamento']) ?></small></td>
         <td class="num"><?= $v['num_itens'] ?></td>
         <td class="num"><?= $v['unidades'] ?></td>

@@ -10,7 +10,7 @@ const ESTADOS = ['pendente', 'enviada', 'recebida', 'cancelada'];
 async function obterEncomenda(id, ligacao = pool) {
   const [cabecalho] = await ligacao.query(
     `SELECT e.id, e.fornecedor_id, f.nome AS fornecedor_nome, e.data_encomenda,
-            e.estado, e.total, e.observacoes
+            e.estado, e.total, e.observacoes, e.criado_por
        FROM encomendas e
        JOIN fornecedores f ON f.id = e.fornecedor_id
       WHERE e.id = ?`,
@@ -47,7 +47,7 @@ router.get('/', async (req, res, next) => {
 
     const [linhas] = await pool.query(
       `SELECT e.id, e.fornecedor_id, f.nome AS fornecedor_nome, e.data_encomenda,
-              e.estado, e.total, e.observacoes,
+              e.estado, e.total, e.observacoes, e.criado_por,
               COUNT(i.id) AS num_linhas, COALESCE(SUM(i.quantidade), 0) AS total_unidades
          FROM encomendas e
          JOIN fornecedores f ON f.id = e.fornecedor_id
@@ -82,6 +82,7 @@ router.get('/:id', async (req, res, next) => {
  * {
  *   "fornecedor_id": 1,
  *   "observacoes": "texto opcional",
+ *   "criado_por": "nome do funcionário (opcional)",
  *   "itens": [
  *     { "referencia_peca": "BR-0986494", "descricao": "Pastilhas", "quantidade": 10, "preco_unitario": 28.6 }
  *   ]
@@ -89,7 +90,7 @@ router.get('/:id', async (req, res, next) => {
  * Cabeçalho + linhas são gravados numa transação: ou fica tudo ou nada.
  */
 router.post('/', async (req, res, next) => {
-  const { fornecedor_id, observacoes, itens } = req.body || {};
+  const { fornecedor_id, observacoes, itens, criado_por } = req.body || {};
   const erros = [];
 
   if (!Number.isInteger(Number(fornecedor_id)) || Number(fornecedor_id) <= 0) erros.push('fornecedor_id inválido');
@@ -115,8 +116,13 @@ router.post('/', async (req, res, next) => {
     const total = itens.reduce((soma, it) => soma + Number(it.quantidade) * Number(it.preco_unitario), 0);
 
     const [cab] = await ligacao.query(
-      'INSERT INTO encomendas (fornecedor_id, total, observacoes) VALUES (?, ?, ?)',
-      [fornecedor_id, total.toFixed(2), observacoes ? String(observacoes).slice(0, 255) : null]
+      'INSERT INTO encomendas (fornecedor_id, total, observacoes, criado_por) VALUES (?, ?, ?, ?)',
+      [
+        fornecedor_id,
+        total.toFixed(2),
+        observacoes ? String(observacoes).slice(0, 255) : null,
+        criado_por ? String(criado_por).slice(0, 120) : null,
+      ]
     );
 
     const valores = itens.map((it) => [

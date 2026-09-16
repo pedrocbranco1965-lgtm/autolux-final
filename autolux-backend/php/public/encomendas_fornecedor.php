@@ -53,7 +53,7 @@ require __DIR__ . '/../templates/cabecalho.php';
   <div>
     <p class="rotulo">Compras</p>
     <h1>Encomenda nº <?= $detalhe['id'] ?> <?= badgeEstado($detalhe['estado']) ?></h1>
-    <p><?= e($detalhe['fornecedor_nome']) ?> · <?= formatarData($detalhe['data_encomenda']) ?></p>
+    <p><?= e($detalhe['fornecedor_nome']) ?> · <?= formatarData($detalhe['data_encomenda']) ?><?= !empty($detalhe['criado_por']) ? ' · submetida por ' . e($detalhe['criado_por']) : '' ?></p>
   </div>
   <a class="botao botao-secundario" href="encomendas_fornecedor.php">Todas as encomendas</a>
 </section>
@@ -83,6 +83,7 @@ require __DIR__ . '/../templates/cabecalho.php';
     <h2>Alterar estado</h2>
     <p class="texto-suave">Envia <code>PATCH /api/encomendas/<?= $detalhe['id'] ?>/estado</code>.</p>
     <form method="post" action="encomendas_fornecedor.php" class="formulario">
+      <?= campoCsrf() ?>
       <input type="hidden" name="acao" value="estado">
       <input type="hidden" name="id" value="<?= $detalhe['id'] ?>">
       <label>Novo estado
@@ -125,16 +126,17 @@ require __DIR__ . '/../templates/cabecalho.php';
 
 <section class="cartao">
   <table class="tabela">
-    <thead><tr><th>#</th><th>Data</th><th>Fornecedor</th><th>Estado</th><th class="num">Linhas</th><th class="num">Unidades</th><th class="num">Total</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>Data</th><th>Fornecedor</th><th>Submetida por</th><th>Estado</th><th class="num">Linhas</th><th class="num">Unidades</th><th class="num">Total</th><th></th></tr></thead>
     <tbody>
       <?php if (!$lista): ?>
-        <tr><td colspan="8" class="texto-suave">Nenhuma encomenda encontrada.</td></tr>
+        <tr><td colspan="9" class="texto-suave">Nenhuma encomenda encontrada.</td></tr>
       <?php endif; ?>
       <?php foreach ($lista as $enc): ?>
       <tr>
         <td>#<?= $enc['id'] ?></td>
         <td><?= formatarData($enc['data_encomenda']) ?></td>
         <td><?= e($enc['fornecedor_nome']) ?></td>
+        <td><?= e($enc['criado_por'] ?? '—') ?></td>
         <td><?= badgeEstado($enc['estado']) ?></td>
         <td class="num"><?= $enc['num_linhas'] ?></td>
         <td class="num"><?= $enc['total_unidades'] ?></td>

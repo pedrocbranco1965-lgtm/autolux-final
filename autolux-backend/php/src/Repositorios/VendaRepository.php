@@ -28,7 +28,7 @@ final class VendaRepository
      * @return int id da venda criada
      * @throws RuntimeException se não houver stock suficiente
      */
-    public function registar(int $clienteId, array $itens, string $tipoPagamento, ?string $detalhePagamento, ?string $observacoes): int
+    public function registar(int $clienteId, array $itens, string $tipoPagamento, ?string $detalhePagamento, ?string $observacoes, ?int $funcionarioId = null): int
     {
         $this->pdo->beginTransaction();
         try {
@@ -55,11 +55,12 @@ final class VendaRepository
             }
 
             $stmtVenda = $this->pdo->prepare(
-                'INSERT INTO vendas (cliente_id, tipo_pagamento, detalhe_pagamento, total, observacoes)
-                 VALUES (:cliente_id, :tipo_pagamento, :detalhe_pagamento, :total, :observacoes)'
+                'INSERT INTO vendas (cliente_id, funcionario_id, tipo_pagamento, detalhe_pagamento, total, observacoes)
+                 VALUES (:cliente_id, :funcionario_id, :tipo_pagamento, :detalhe_pagamento, :total, :observacoes)'
             );
             $stmtVenda->execute([
                 'cliente_id'        => $clienteId,
+                'funcionario_id'    => $funcionarioId,
                 'tipo_pagamento'    => $tipoPagamento,
                 'detalhe_pagamento' => $detalhePagamento,
                 'total'             => number_format($total, 2, '.', ''),
@@ -94,10 +95,11 @@ final class VendaRepository
     public function listar(int $limite = 50): array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT v.*, c.nome AS cliente,
+            'SELECT v.*, c.nome AS cliente, f.nome AS funcionario,
                     COUNT(i.id) AS num_itens, COALESCE(SUM(i.quantidade), 0) AS unidades
                FROM vendas v
                JOIN clientes c ON c.id = v.cliente_id
+               LEFT JOIN funcionarios f ON f.id = v.funcionario_id
                LEFT JOIN vendas_itens i ON i.venda_id = v.id
               GROUP BY v.id
               ORDER BY v.data_venda DESC, v.id DESC
@@ -111,8 +113,10 @@ final class VendaRepository
     public function obter(int $id): ?array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT v.*, c.nome AS cliente, c.nif AS cliente_nif, c.email AS cliente_email
-               FROM vendas v JOIN clientes c ON c.id = v.cliente_id
+            'SELECT v.*, c.nome AS cliente, c.nif AS cliente_nif, c.email AS cliente_email, f.nome AS funcionario
+               FROM vendas v
+               JOIN clientes c ON c.id = v.cliente_id
+               LEFT JOIN funcionarios f ON f.id = v.funcionario_id
               WHERE v.id = :id'
         );
         $stmt->execute(['id' => $id]);

@@ -82,6 +82,7 @@ require __DIR__ . '/../templates/cabecalho.php';
     <h2>Novo fornecedor</h2>
     <?php if (isset($erros['geral'])): ?><div class="alerta alerta-erro"><?= e($erros['geral']) ?></div><?php endif; ?>
     <form method="post" action="fornecedores.php" class="formulario" novalidate>
+      <?= campoCsrf() ?>
       <label>Nome *<input type="text" name="nome" value="<?= antigo('nome') ?>" required></label>
       <label>NIF *<input type="text" name="nif" maxlength="9" inputmode="numeric" value="<?= antigo('nif') ?>" required></label>
       <label>Email *<input type="email" name="email" value="<?= antigo('email') ?>" required></label>

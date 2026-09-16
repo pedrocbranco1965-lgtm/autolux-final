@@ -39,6 +39,7 @@ CREATE TABLE encomendas (
   estado          ENUM('pendente','enviada','recebida','cancelada') NOT NULL DEFAULT 'pendente',
   total           DECIMAL(10,2) NOT NULL DEFAULT 0,
   observacoes     VARCHAR(255) NULL,
+  criado_por      VARCHAR(120) NULL,   -- nome do funcionário que submeteu (enviado pela interface PHP)
   CONSTRAINT fk_enc_fornecedor FOREIGN KEY (fornecedor_id) REFERENCES fornecedores(id)
 ) ENGINE=InnoDB;
 
@@ -66,8 +67,8 @@ INSERT INTO fornecedores (nome, nif, email, telefone, morada, prazo_entrega_dias
   ('Valeo Service Portugal',        '500456789', 'service.pt@valeo.com',     '214200200', 'Parque Industrial, Sintra', 5),
   ('AutoDistribuição Nacional Lda', '500567890', 'compras@autodist.pt',      '244800800', 'Zona Industrial Norte, Leiria', 2);
 
-INSERT INTO encomendas (fornecedor_id, estado, total, observacoes)
-VALUES (1, 'recebida', 858.00, 'Reposição mensal de pastilhas');
+INSERT INTO encomendas (fornecedor_id, estado, total, observacoes, criado_por)
+VALUES (1, 'recebida', 858.00, 'Reposição mensal de pastilhas', 'Ana Martins');
 
 INSERT INTO encomendas_itens (encomenda_id, referencia_peca, descricao, quantidade, preco_unitario) VALUES
   (1, 'BR-0986494', 'Pastilhas de travão dianteiras', 20, 28.60),

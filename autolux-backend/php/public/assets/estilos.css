@@ -43,6 +43,28 @@ h3 { font-size: 1.05rem; }
 .menu a:hover { background: var(--superficie-suave); text-decoration: none; color: var(--primaria); }
 .menu a.ativo { background: var(--primaria); color: #fff; }
 
+.sessao { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+.sessao-nome { display: grid; text-align: right; font-weight: 700; color: var(--primaria); font-size: 0.9rem; line-height: 1.2; }
+.sessao-nome small { color: var(--suave); font-weight: 500; font-size: 0.75rem; }
+.sessao form { margin: 0; }
+
+/* ---------- Login ---------- */
+.pagina-login { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: linear-gradient(135deg, var(--primaria) 0%, var(--primaria-clara) 60%, #2d5a8e 100%); }
+.cartao-login { width: min(420px, 100%); padding: 32px; background: var(--superficie); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3); display: grid; gap: 12px; }
+.cartao-login .marca { margin-bottom: 10px; }
+.cartao-login h1 { margin-bottom: 8px; }
+.credenciais-teste { margin-top: 8px; font-size: 0.85rem; color: var(--suave); }
+.credenciais-teste summary { cursor: pointer; font-weight: 700; }
+.credenciais-teste ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+
+/* ---------- Popover (nova password) ---------- */
+.acoes-inline { flex-wrap: nowrap; }
+.acoes-inline form { margin: 0; }
+.popover { position: relative; }
+.popover summary { list-style: none; }
+.popover summary::-webkit-details-marker { display: none; }
+.popover-conteudo { position: absolute; right: 0; top: calc(100% + 6px); z-index: 5; width: 260px; padding: 14px; background: var(--superficie); border: 1px solid var(--borda); border-radius: 14px; box-shadow: var(--sombra); }
+
 /* ---------- Layout ---------- */
 .conteudo { width: min(1200px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 60px; }
 .cabecalho-pagina { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 22px; }

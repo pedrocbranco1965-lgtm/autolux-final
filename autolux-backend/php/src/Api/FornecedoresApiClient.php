@@ -49,11 +49,12 @@ final class FornecedoresApiClient
     /**
      * @param array<int, array{referencia_peca:string, descricao:string, quantidade:int, preco_unitario:float}> $itens
      */
-    public function submeterEncomenda(int $fornecedorId, array $itens, ?string $observacoes = null): array
+    public function submeterEncomenda(int $fornecedorId, array $itens, ?string $observacoes = null, ?string $criadoPor = null): array
     {
         return $this->pedido('POST', '/encomendas', [
             'fornecedor_id' => $fornecedorId,
             'observacoes'   => $observacoes,
+            'criado_por'    => $criadoPor,
             'itens'         => $itens,
         ]);
     }

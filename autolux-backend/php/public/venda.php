@@ -87,7 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $total += $peca ? (float) $peca['preco'] * $qtd : 0;
             }
             $detalhe = $metodo->detalhe($total, $campoExtra);
-            $vendaId = (new VendaRepository())->registar($clienteSelecionado, $itens, $metodo->codigo(), $detalhe, $observacoes);
+            $vendaId = (new VendaRepository())->registar(
+                $clienteSelecionado, $itens, $metodo->codigo(), $detalhe, $observacoes, (int) $utilizadorAtual['id']
+            );
             flash('sucesso', "Venda nº $vendaId registada com sucesso. Pagamento: {$metodo->nome()}" . ($detalhe ? " ($detalhe)" : '') . '.');
             redirecionar("venda_detalhe.php?id=$vendaId");
         } catch (RuntimeException $e) {
@@ -117,6 +119,7 @@ require __DIR__ . '/../templates/cabecalho.php';
 <?php endif; ?>
 
 <form method="post" action="venda.php" class="formulario formulario-venda" id="form-venda" novalidate>
+  <?= campoCsrf() ?>
   <div class="duas-colunas colunas-2-1">
     <div>
       <section class="cartao">

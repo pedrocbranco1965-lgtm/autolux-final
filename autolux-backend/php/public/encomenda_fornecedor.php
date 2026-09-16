@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$erroApi) {
 
     if (!$erros) {
         try {
-            $encomenda = $apiFornecedores->submeterEncomenda($fornecedorSelecionado, $itens, $observacoes ?: null);
+            $encomenda = $apiFornecedores->submeterEncomenda($fornecedorSelecionado, $itens, $observacoes ?: null, $utilizadorAtual['nome']);
             flash('sucesso', 'Encomenda nº ' . $encomenda['id'] . ' submetida ao fornecedor ' . $encomenda['fornecedor_nome'] .
                 ' através da API Node.js. Total: ' . formatarPreco($encomenda['total']) . '.');
             redirecionar('encomendas_fornecedor.php?id=' . $encomenda['id']);
@@ -128,6 +128,7 @@ require __DIR__ . '/../templates/cabecalho.php';
 <?php if (isset($erros['itens'])): ?><div class="alerta alerta-erro"><?= e($erros['itens']) ?></div><?php endif; ?>
 
 <form method="post" action="encomenda_fornecedor.php" class="formulario" id="form-encomenda" novalidate>
+  <?= campoCsrf() ?>
   <div class="duas-colunas colunas-2-1">
     <div>
       <section class="cartao">
