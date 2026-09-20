@@ -105,8 +105,8 @@ final class Auth
         if (self::autenticado()) {
             return;
         }
-        $destino = $_SERVER['REQUEST_URI'] ?? 'index.php';
-        header('Location: login.php?redirect=' . urlencode(ltrim($destino, '/')));
+        $destino = ltrim($_SERVER['REQUEST_URI'] ?? '', '/') ?: 'index.php';
+        header('Location: login.php?redirect=' . urlencode($destino));
         exit;
     }
 
