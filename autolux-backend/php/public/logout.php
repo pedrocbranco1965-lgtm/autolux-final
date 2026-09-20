@@ -12,6 +12,5 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 Auth::sair();
-session_start();
 flash('sucesso', 'Sessão terminada. Até breve!');
 redirecionar('login.php');

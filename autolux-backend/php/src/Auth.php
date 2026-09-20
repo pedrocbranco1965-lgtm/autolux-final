@@ -87,14 +87,15 @@ final class Auth
         return null;
     }
 
+    /**
+     * Termina a sessão: apaga todos os dados e troca o id de sessão (o antigo
+     * é destruído no servidor). Mantém-se uma sessão vazia para poder mostrar
+     * a mensagem "sessão terminada" na página de login.
+     */
     public static function sair(): void
     {
         $_SESSION = [];
-        if (ini_get('session.use_cookies')) {
-            $p = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000, $p['path'], $p['domain'], $p['secure'], $p['httponly']);
-        }
-        session_destroy();
+        session_regenerate_id(true);
         self::$utilizadorAtual = null;
         self::$carregado = true;
     }
