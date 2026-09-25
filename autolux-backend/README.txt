@@ -192,6 +192,7 @@ vendas de peças e encomendarem novas peças aos fornecedores.
 ----------------------
 
   autolux-backend/
+    CODIGO_COMPLETO.md        todo o código-fonte num só ficheiro (para leitura/estudo)
     package.json              scripts npm (install / start / db:setup / test:api)
     .env.example              configuração (copiar para .env)
     database/
